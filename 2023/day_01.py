@@ -31,7 +31,7 @@ def get_digits(data: Iterable, part_2: bool = False):
         if part_2:
             text = str_to_int(text, translate_number)
             # quando todo mundo é digito, só preciso pegar o primeiro e o ultimo
-            # otimizacao desnecessário pra parte 2.
+            # otimizacao boba pra parte 2.
             left, right = text[0], text[-1]
         else:
             left = extract_digit(text)
