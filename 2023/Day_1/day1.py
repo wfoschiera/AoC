@@ -5,8 +5,6 @@ def open_files(path):
     return csv
 
 
-
-
 def extract_left_digit(text):
     for letter in text:
         if letter.isdigit():
