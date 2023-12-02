@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Iterable
 
 nums = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 int_numbers = "1 2 3 4 5 6 7 8 9".split(" ")
@@ -24,7 +24,7 @@ def str_to_int(text: str, dic: Dict[str, int]) -> list:
     return resp
 
 
-def get_digits(data, part_2=False):
+def get_digits(data: Iterable, part_2: bool = False):
     total = 0
     for line_str in data:
         text = line_str.strip()
