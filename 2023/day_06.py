@@ -37,38 +37,36 @@ def get_total_wins(total_time, record):
 
 def solution_2(data):
     ts, ds = parse_data_2(data)
-    total_wins = 1
     # for every race
-    for t, d in zip(ts, ds):
-        total_wins *= get_total_wins(t, d)
+    total_wins = get_total_wins(ts, ds)
 
     return total_wins
 
 
 def parse_data_2(data):
     time, distance = data.splitlines()
-    time = re.sub(" ", "", time)
-    distance = re.sub(" ", "", time)
-    return time, distance
+    _, time = re.sub(" ", "", time).split(":")
+    _, distance = re.sub(" ", "", distance).split(":")
+    return int(time), int(distance)
 
 
 if __name__ == '__main__':
     # PT 1
     # TEST
-    res = solution(test_data)
-    print(res)
-
-    # SOLUTION
-    data = open("day_06.txt").read()
-    res = solution(data)
-    print(res)
+    # res = solution(test_data)
+    # print(res)
+    #
+    # # SOLUTION
+    # data = open("day_06.txt").read()
+    # res = solution(data)
+    # print(res)
 
     # PT 2
     # TEST
-    res = solution_2(test_data)
-    print(res)
+    # res = solution_2(test_data)
+    # print(res)
 
     # SOLUTION
     data = open("day_06.txt").read()
-    res = solution(data)
+    res = solution_2(data)
     print(res)
