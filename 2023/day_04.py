@@ -32,7 +32,6 @@ def get_result(data):
     total = 0
     cleaned_data = clean_data(data)
     powers = get_power(cleaned_data)
-    print(powers)
     for pow in powers.values():
         if pow > 0:
             res = 1
@@ -46,22 +45,14 @@ def get_result(data):
 def get_result_p2(data):
     cleaned_data = clean_data(data)
     powers = get_power(cleaned_data)
-    instances = {}
-    for card_num, pow in powers.items():
-        next_card = card_num + 1
-        for p in range(1, pow + 1):
-            next_card += 1
-            if p in powers:
-                instances[next_card] = instances.get(next_card, 0) + 1
-    return instances
+    cards_instances = [1] * len(powers)
+    # instances = calculate_instances_recur(0, powers)
+    for card_num in powers:
+        for idx in range(powers[card_num]):
+            cards_instances[card_num + idx] += cards_instances[card_num - 1]
 
-def recur(card_powers, card_num):
-    card_powers[card_num] = card_powers.get(card_num, 0) + 1
-    return card_powers[card_num]
+    return sum(cards_instances)
 
-
-instances = {0: 1, 1: 2, 2: 4, 3: 8, 4: 14, 5: 1}
-total = sum(instances.values())
 
 if __name__ == '__main__':
     # Part 1
@@ -70,9 +61,9 @@ if __name__ == '__main__':
     print(result)
     # Part 1
     # Final
-    # data = open("day_04.txt").readlines()
-    # result = get_result(data)
-    # print(result)
+    data = open("day_04.txt").readlines()
+    result = get_result(data)
+    print(result)
 
     # Part 2
     # Test data
@@ -80,6 +71,6 @@ if __name__ == '__main__':
     print(result)
     # Part 2
     # Final
-    # data = open("day_04.txt").readlines()
-    # result = get_result_p2(data)
-    # print(result)
+    data = open("day_04.txt").readlines()
+    result = get_result_p2(data)
+    print(result)
