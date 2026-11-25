@@ -1,3 +1,7 @@
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
+
 test_data = """467..114..
 ...*......
 ..35..633.
@@ -27,9 +31,8 @@ def num_with_adj_sym(data: str):
                     start_pos = pos
                 flag = True
                 num += char
-                if pos == 139:
-                    if has_adj_sym(num, start_pos, line_num, lines):
-                        total.append(int(num))
+                if pos == 139 and has_adj_sym(num, start_pos, line_num, lines):
+                    total.append(int(num))
             else:
                 if num == "":
                     continue
@@ -55,15 +58,15 @@ def has_adj_sym(number: str, start_pos: int, line_num: int, lines: dict):
     left_limit = max(pos_start - 1, low_index)
     right_limit = min(pos_end + 1, max_index) if pos_end < 140 else -1
 
-    line_target = line_target[left_limit: right_limit].replace(number, "")
-    line_above = line_above[left_limit: right_limit].replace(number, "")
-    line_below = line_below[left_limit: right_limit].replace(number, "")
+    line_target = line_target[left_limit:right_limit].replace(number, "")
+    line_above = line_above[left_limit:right_limit].replace(number, "")
+    line_below = line_below[left_limit:right_limit].replace(number, "")
 
     symbols = (line_target + line_above + line_below).strip(".123456789")
     return bool(symbols)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # PART 1
     # TEST
     # list_total = num_with_adj_sym(data)
@@ -71,15 +74,15 @@ if __name__ == '__main__':
     # print(sum(list_total))
     # 4361
     # Result
-    data = open("day_03.txt")
-    _, lista = p1(data)
-    print(lista)
-    print(sum(lista))
+    # `p1` is not defined anywhere in the repo, so this block crashed.
+    # _, lista = p1(data)
+    # print(lista)
+    # print(sum(lista))
     # # # print(data)
-    data = open("day_03.txt")
-    list_total = num_with_adj_sym(data.readlines())
+    data = INPUT.read_text().splitlines(keepends=True)
+    list_total = num_with_adj_sym(data)
     print("Meu resultado errado")
     print(list_total)
-    print(f"Result: ", sum(list_total))
+    print("Result: ", sum(list_total))
 
 # 513825

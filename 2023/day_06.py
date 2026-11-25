@@ -1,4 +1,7 @@
 import re
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 test_data = """Time:      7  15   30
 Distance:  9  40  200"""
@@ -6,10 +9,9 @@ Distance:  9  40  200"""
 
 def parse_data(data):
     time, distance = data.splitlines()
-    time = [int(x) for x in re.findall("\d+", time)]
-    distance = [int(x) for x in re.findall("\d+", distance)]
+    time = [int(x) for x in re.findall(r"\d+", time)]
+    distance = [int(x) for x in re.findall(r"\d+", distance)]
     return time, distance
-
 
 
 def solution(data):
@@ -26,7 +28,7 @@ def get_total_wins(total_time, record):
     total = 0
     has_won = False
     for t in range(total_time):
-        dist = (t*1) * (total_time - t)
+        dist = (t * 1) * (total_time - t)
         if dist > record:
             total += 1
             has_won = True
@@ -50,14 +52,14 @@ def parse_data_2(data):
     return int(time), int(distance)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # PT 1
     # TEST
     # res = solution(test_data)
     # print(res)
     #
     # # SOLUTION
-    # data = open("day_06.txt").read()
+    # data = INPUT.read_text()
     # res = solution(data)
     # print(res)
 
@@ -67,6 +69,6 @@ if __name__ == '__main__':
     # print(res)
 
     # SOLUTION
-    data = open("day_06.txt").read()
+    data = INPUT.read_text()
     res = solution_2(data)
     print(res)

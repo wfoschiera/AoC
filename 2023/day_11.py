@@ -1,4 +1,7 @@
-from itertools import product, combinations
+from itertools import combinations
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 test_data = """...#......
 .......#..
@@ -44,7 +47,7 @@ def expanded_distance(x1, y1, x2, y2, empty_rows, empty_cols, factor):
 
 
 def coord_from_galaxies(data):
-    galaxies_coord = dict()
+    galaxies_coord = {}
     galx_counter = 1
     for i, line in enumerate(data):
         for j, col in enumerate(line):
@@ -52,6 +55,8 @@ def coord_from_galaxies(data):
                 galaxies_coord[galx_counter] = (j, i)
                 galx_counter += 1
     return galaxies_coord
+
+
 #
 #
 # def expand_the_universe(data):
@@ -83,7 +88,7 @@ def is_empty(row_col):
     return set(row_col) == {"."}
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # # Part 1
     # # Test
     # data = test_data.splitlines()
@@ -96,7 +101,7 @@ if __name__ == '__main__':
     #
     # # Part 1
     # # Test
-    # data = open("day_11.txt").read().splitlines()
+    # data = INPUT.read_text().splitlines()
     # e_r = empty_rows(data)
     # e_c = empty_cols(data)
     # # expanded_data = expand_the_universe(data)
@@ -120,7 +125,7 @@ if __name__ == '__main__':
 
     # Part 2
     # Result
-    data = open("day_11.txt").read().splitlines()
+    data = INPUT.read_text().splitlines()
     e_r = empty_rows(data)
     e_c = empty_cols(data)
     # expanded_data = expand_the_universe(data)

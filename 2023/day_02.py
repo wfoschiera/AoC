@@ -1,4 +1,7 @@
 from collections import defaultdict
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 test_data = """
     Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
@@ -12,7 +15,7 @@ test_data = """
 def day_2_solution(data: str, res: dict):
     total = 0
     data = data.strip()
-    min_solution = dict()
+    min_solution = {}
     for line in data.split("\n"):
         possible = True
         line = line.strip()
@@ -20,7 +23,7 @@ def day_2_solution(data: str, res: dict):
         game_num = game.split(" ")[1]
         bags = result.split(";")
         cubes_map = defaultdict(int)
-        min_cube = dict(green=0, red=0, blue=0)
+        min_cube = {"green": 0, "red": 0, "blue": 0}
         for bag in bags:
             cubes_map = defaultdict(int)
             for c in bag.split(","):
@@ -28,8 +31,8 @@ def day_2_solution(data: str, res: dict):
                 value, color = c.split(" ")
                 cubes_map[color] += int(value)
             for key, value in cubes_map.items():
-                min_cube[key] = value if min_cube[key] < value else min_cube[key]
-                if cubes_map[key] > res[key]:
+                min_cube[key] = max(min_cube[key], value)
+                if value > res[key]:
                     possible = False
         min_solution[game_num] = min_cube
         if possible:
@@ -39,9 +42,9 @@ def day_2_solution(data: str, res: dict):
 
 def get_power(min_solution):
     total_power = 0
-    for game, minimum in min_solution.items():
+    for minimum in min_solution.values():
         power = 1
-        for color, value in minimum.items():
+        for value in minimum.values():
             power *= value
         total_power += power
     return total_power
@@ -50,11 +53,11 @@ def get_power(min_solution):
 if __name__ == "__main__":
     # part 1
     # TEST
-    res = dict(red=12, green=13, blue=14)
+    res = {"red": 12, "green": 13, "blue": 14}
     result, _ = day_2_solution(test_data, res)
     assert result == 8
     # FINAL
-    data = open("day_02.txt", "r").read()
+    data = INPUT.read_text()
     result, _ = day_2_solution(data, res)
 
     # part 2

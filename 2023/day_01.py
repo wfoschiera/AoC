@@ -1,7 +1,10 @@
-from typing import Dict, Iterable
+from collections.abc import Iterable
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 nums = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-int_numbers = "1 2 3 4 5 6 7 8 9".split(" ")
+int_numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 translate_number = {string: number for string, number in zip(nums, int_numbers)}
 
 
@@ -11,15 +14,15 @@ def extract_digit(text: str) -> str:
             return letter
 
 
-def str_to_int(text: str, dic: Dict[str, int]) -> list:
+def str_to_int(text: str, dic: dict[str, int]) -> list:
     resp = []
     for i, v in enumerate(text):
         if v.isdigit():
             resp.append(v)
             continue
-        for num in dic.keys():
+        for num, digit in dic.items():
             if text[i:].startswith(num):
-                resp.append(dic[num])
+                resp.append(digit)
                 break
     return resp
 
@@ -42,6 +45,6 @@ def get_digits(data: Iterable, part_2: bool = False):
 
 
 if __name__ == "__main__":
-    data = open("day_01.txt", "r").readlines()
+    data = INPUT.read_text().splitlines(keepends=True)
     print(get_digits(data))
     print(get_digits(data, True))

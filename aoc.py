@@ -1,8 +1,8 @@
 """Advent of Code helper: what is available, what is done, and a new day's files.
 
-    python aoc.py            # every year: puzzles available, files here, your stars
-    python aoc.py 2022       # one year, day by day, and the next day to do
-    python aoc.py 2022 7     # create 2022/day_07.py and download 2022/day_07.txt
+    uv run aoc.py            # every year: puzzles available, files here, your stars
+    uv run aoc.py 2024       # one year, day by day, and the next day to do
+    uv run aoc.py 2024 7     # create 2024/day_07.py and download 2024/day_07.txt
 
 Existing files are never overwritten. Stars and inputs need your adventofcode.com
 `session` cookie in the AOC_SESSION environment variable; without it, only the
@@ -164,7 +164,7 @@ def show_years(session: str, today: datetime) -> None:
         if started and not done and unfinished is None:
             unfinished = year
     if unfinished:
-        print(f"\noldest unfinished year: {unfinished}  ->  python aoc.py {unfinished}")
+        print(f"\noldest unfinished year: {unfinished}  ->  uv run aoc.py {unfinished}")
 
 
 def show_year(year: int, session: str, today: datetime) -> None:
@@ -185,7 +185,7 @@ def show_year(year: int, session: str, today: datetime) -> None:
         input_text = "yes" if puzzle_input.exists() else "-"
         print(f"{day:>3}  {file_text:>4}  {input_text:>5}  {star_text:>5}")
     if next_day:
-        print(f"\nnext day: {next_day}  ->  python aoc.py {year} {next_day}")
+        print(f"\nnext day: {next_day}  ->  uv run aoc.py {year} {next_day}")
     else:
         print("\nall done")
 

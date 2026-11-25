@@ -1,5 +1,6 @@
-import functools
-from collections import OrderedDict
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 test_data = """seeds: 79 14 55 13
 
@@ -42,17 +43,20 @@ def parse_input(data, p2=False):
     seeds = [int(x) for x in seeds.split()]
     return seeds, data
 
+
 def solution_p1(seeds, parsed_data):
     for map_ in parsed_data:
         _, *values = map_.splitlines()
         ranges = create_map(values)
-        def get_next(seed):
-            for o, d in ranges:
-                if seed in o:
-                    return d.start - o.start + seed
-            return seed
-        seeds = [get_next(seed) for seed in seeds]
+        seeds = [get_next(seed, ranges) for seed in seeds]
     return min(seeds)
+
+
+def get_next(seed, ranges):
+    for o, d in ranges:
+        if seed in o:
+            return d.start - o.start + seed
+    return seed
 
 
 def create_map(lines: str) -> set[tuple]:
@@ -65,23 +69,23 @@ def create_map(lines: str) -> set[tuple]:
         del ranges, destinations, origins
     return map_
 
+
 def solution_p2():
+    # Unfinished and never called. The loop below had lost its indentation
+    # inside pairs(), which left `_pairs` undefined.
     def pairs(seeds):
         _pairs = set()
-    for i, seed in enumerate(seeds):
-        if i % 2 == 0:
-            _pairs.add((seed, seeds[i + 1]))
-    print(_pairs)
-    return _pairs
+        for i, seed in enumerate(seeds):
+            if i % 2 == 0:
+                _pairs.add((seed, seeds[i + 1]))
+        print(_pairs)
+        return _pairs
 
-
-    result = []
     seeds_range = [range(a, a + b) for a, b in pairs(seeds)]
     print(seeds_range)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     # PART 1
     # TEST
     seeds, data = parse_input(data=test_data)
@@ -90,7 +94,7 @@ if __name__ == '__main__':
     # assert resp == 35
 
     # RESULT
-    data = open("day_05.txt").read()
+    data = INPUT.read_text()
     seeds, data = parse_input(data=data)
     resp = solution_p1(seeds, data)
     print(resp)
@@ -102,6 +106,6 @@ if __name__ == '__main__':
     # assert resp == 46
 
     # RESULT
-    # data = open("day_05.txt").read()
+    # data = INPUT.read_text()
     # resp = parse_input(data=data, p2=True)
     # print(resp)

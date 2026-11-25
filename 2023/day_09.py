@@ -1,4 +1,7 @@
 from itertools import pairwise
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 input_data = """0 3 6 9 12 15
 1 3 6 10 15 21
@@ -14,6 +17,7 @@ def solution_pt1(data):
         estimated_num.append(estimate(cycles))
 
     return estimated_num
+
 
 def solution_pt2(data):
     estimated_num = []
@@ -43,12 +47,14 @@ def get_zeros(numbers, last_list=None):
 
     return get_zeros(new_iter, last_list)
 
+
 def estimate(cycles):
     # cycles = [[0, 0, 0, 0], [3, 3, 3, 3, 3], [0, 3, 6, 9, 12, 15]]
     for cur_item, next_item in pairwise(cycles):
         input_ = next_item[-1] + cur_item[-1]
         next_item.append(input_)
     return input_
+
 
 def estimate_p2(cycles):
     for cur_item, next_item in pairwise(cycles):
@@ -57,7 +63,7 @@ def estimate_p2(cycles):
     return cycles
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # PART 1
     # TEST
     data = input_data.split("\n")
@@ -66,7 +72,7 @@ if __name__ == '__main__':
     print(sum(res))
 
     # # RESULT
-    data = open("day_09.txt").read().splitlines()
+    data = INPUT.read_text().splitlines()
     res = sum(solution_pt1(data))
     print(res)
     assert res == 1772145754
@@ -79,7 +85,7 @@ if __name__ == '__main__':
     assert res == 2
     #
     # # RESULT
-    data = open("day_09.txt").read().splitlines()
+    data = INPUT.read_text().splitlines()
     res = sum(solution_pt2(data))
     print(res)
     assert res == 867
