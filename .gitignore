@@ -159,3 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 .ruff_cache
+# Advent of Code inputs are not meant to be shared: https://adventofcode.com/about#faq_copying
+# (the 2023 inputs were committed before this rule and stay tracked)
+/*/day_*.txt
