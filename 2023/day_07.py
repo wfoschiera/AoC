@@ -1,5 +1,8 @@
 from collections import Counter, defaultdict
 from operator import itemgetter
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 test_data = """32T3K 765
 T55J5 684
@@ -7,8 +10,9 @@ KK677 28
 KTJJT 220
 QQQJA 483"""
 
+
 def classify_hand(data, pt2=False):
-    t_map = {"A":14, "K":13, "Q":12, "J":11, "T":10}
+    t_map = {"A": 14, "K": 13, "Q": 12, "J": 11, "T": 10}
     hand_type = defaultdict(list)
 
     len_hand_before = 0
@@ -19,47 +23,45 @@ def classify_hand(data, pt2=False):
         C = Counter(hand)
         sorted(C.items(), key=lambda x: x[1])
         hand_values = C.values()
-        def map_hand(hand_values):
-            if 5 in hand_values:
+
+        if 5 in hand_values:
+            hand_type["five_of_k"].append((hand, bid))
+
+        elif 4 in hand_values:
+            if pt2 and C.get(11) == 1:
                 hand_type["five_of_k"].append((hand, bid))
+            else:
+                hand_type["four_of_k"].append((hand, bid))
 
-            elif 4 in hand_values:
-                if pt2 and C.get(11) == 1:
-                    hand_type["five_of_k"].append((hand, bid))
-                else:
-                    hand_type["four_of_k"].append((hand, bid))
-
-            elif 3 in hand_values:
-                if 2 in hand_values:
-                    if pt2 and 11 in C:
-                        if C.get(11) == 2:
-                            hand_type["five_of_k"].append((hand, bid))
-                        elif C.get(11) == 1:
-                            hand_type["four_of_k"].append((hand, bid))
-                    else:
-                        hand_type["full"].append((hand, bid))
-                else:
-                    hand_type["three_of_k"].append((hand, bid))
-
-            elif Counter(hand_values).get(2, 0) == 2:
+        elif 3 in hand_values:
+            if 2 in hand_values:
                 if pt2 and 11 in C:
-                    hand_type["four_of_k"].append((hand, bid))
+                    if C.get(11) == 2:
+                        hand_type["five_of_k"].append((hand, bid))
+                    elif C.get(11) == 1:
+                        hand_type["four_of_k"].append((hand, bid))
                 else:
-                    hand_type["two_pair"].append((hand, bid))
+                    hand_type["full"].append((hand, bid))
+            else:
+                hand_type["three_of_k"].append((hand, bid))
 
-            elif 2 in hand_values:
-                if pt2 and C[11] == 1:
-                        hand_type["three_of_k"].append((hand, bid))
-                else:
-                    hand_type["pair"].append((hand, bid))
+        elif Counter(hand_values).get(2, 0) == 2:
+            if pt2 and 11 in C:
+                hand_type["four_of_k"].append((hand, bid))
+            else:
+                hand_type["two_pair"].append((hand, bid))
 
-            elif list(hand_values) == [1, 1, 1, 1, 1]:
-                if pt2 and 11 in C:
-                    hand_type["pair"].append((hand, bid))
-                else:
-                    hand_type["higher"].append((hand, bid))
+        elif 2 in hand_values:
+            if pt2 and C[11] == 1:
+                hand_type["three_of_k"].append((hand, bid))
+            else:
+                hand_type["pair"].append((hand, bid))
 
-        map_hand(hand_values)
+        elif list(hand_values) == [1, 1, 1, 1, 1]:
+            if pt2 and 11 in C:
+                hand_type["pair"].append((hand, bid))
+            else:
+                hand_type["higher"].append((hand, bid))
         len_hand_act = len(hand_type)
         if len_hand_before == len_hand_act:
             print("tá igual", hand, hand_values, bid)
@@ -67,15 +69,17 @@ def classify_hand(data, pt2=False):
 
     return hand_type
 
+
 def sort_hand_types(hand_types) -> dict:
-    keys = ["five_of_k",
-            "four_of_k",
-            "full",
-            "three_of_k",
-            "two_pair",
-            "pair",
-            "higher"
-            ]
+    keys = [
+        "five_of_k",
+        "four_of_k",
+        "full",
+        "three_of_k",
+        "two_pair",
+        "pair",
+        "higher",
+    ]
     keys.reverse()
     for key in keys:
         hand_types[key].sort(key=itemgetter(0))
@@ -106,7 +110,7 @@ def solution_p2(data):
     return sort_hand_types(hand_types)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Part 1
     # TEST
     data = test_data.splitlines()
@@ -115,7 +119,7 @@ if __name__ == '__main__':
     assert res == 6440
 
     # Result
-    data = open("day_07.txt").read().splitlines()
+    data = INPUT.read_text().splitlines()
     res = solution_p1(data)
     print(res)
     assert res == 248812215
@@ -128,6 +132,6 @@ if __name__ == '__main__':
     assert res == 5905
 
     # Result
-    data = open("day_07.txt").read().splitlines()
+    data = INPUT.read_text().splitlines()
     res = solution_p2(data)
     print(res)

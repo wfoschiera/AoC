@@ -10,22 +10,3 @@ dev = [
     "pre-commit>=4.7.0",
     "ruff>=0.17.6",
 ]
-
-[tool.ruff]
-# Apply the exclusions below even to files passed by name (pre-commit does that).
-force-exclude = true
-# Not reviewed yet. Each review PR removes its file (or the 2022 folder) from here,
-# so CI and pre-commit start checking it.
-extend-exclude = [
-    "2022",
-    "2023/day_01.py",
-    "2023/day_02.py",
-    "2023/day_03.py",
-    "2023/day_04.py",
-    "2023/day_05.py",
-    "2023/day_06.py",
-    "2023/day_07.py",
-    "2023/day_08.py",
-    "2023/day_09.py",
-    "2023/day_11.py",
-]

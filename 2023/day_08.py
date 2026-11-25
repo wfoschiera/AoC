@@ -1,6 +1,9 @@
 import re
-from math import lcm
 from itertools import cycle
+from math import lcm
+from pathlib import Path
+
+INPUT = Path(__file__).with_suffix(".txt")
 
 test_data = """LLR
 
@@ -41,7 +44,7 @@ def get_nodes(data):
     nodes = {}
     for line in data:
         key, value = line.split(" = ")
-        value = re.findall(r'[\d\w]{3}', value)
+        value = re.findall(r"[\d\w]{3}", value)
         nodes[key] = value
     return nodes
 
@@ -69,7 +72,7 @@ def solution_p2(data, header):
     return lcm(*steps)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Part 1
     # Test
     # header, data = test_data.split("\n\n")
@@ -80,7 +83,7 @@ if __name__ == '__main__':
     # assert res == 6
     #
     # # Result
-    # data = open("day_08.txt").read()
+    # data = INPUT.read_text()
     # header, data = data.split("\n\n")
     # data = data.splitlines()
     # res = solution_pt1(data, header, "AAA")
@@ -97,7 +100,7 @@ if __name__ == '__main__':
     assert res == 6
 
     # Result
-    data = open("day_08.txt").read()
+    data = INPUT.read_text()
     header, data = data.split("\n\n")
     data = data.splitlines()
     res = solution_p2(data, header)
